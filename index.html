@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b5d3b">
+<title>Student Application Form — JangAfrika</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #0b5d3b;
+    --brand-dark: #073d27;
+    --brand-mid: #167a52;
+    --brand-light: #e8f3ed;
+    --accent: #d9a441;
+    --accent-dark: #a97a1c;
+    --accent-soft: #fdf5e4;
+    --danger: #b3261e;
+    --text: #17221c;
+    --muted: #5d6b63;
+    --line: #d5ddd8;
+    --bg: #f3f6f4;
+    --radius: 14px;
+    --font: 'Plus Jakarta Sans', 'Segoe UI', Roboto, Arial, sans-serif;
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: var(--font); line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--brand); font-weight: 600; }
+  .hidden { display: none !important; }
+  .muted { color: var(--muted); }
+
+  /* ---- header ---- */
+  .topbar { background: var(--brand-dark); color: #fff; }
+  .topbar-inner {
+    max-width: 800px; margin: 0 auto; padding: 14px 18px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .topbar img { height: 46px; width: 46px; border-radius: 10px; background: #fff; object-fit: cover; flex: none; }
+  .topbar h1 { font-family: var(--font-display); font-size: 1.3rem; margin: 0; line-height: 1.15; letter-spacing: .01em; }
+  .topbar small { display: block; opacity: .8; font-size: .82rem; margin-top: 2px; }
+  /* woven-cloth strip: a nod to Gambian textiles */
+  .weave {
+    height: 8px;
+    background: repeating-linear-gradient(90deg,
+      var(--accent) 0 26px, var(--brand) 26px 34px, #f4ead2 34px 40px, var(--brand-dark) 40px 66px, var(--brand) 66px 74px);
+  }
+
+  .container { max-width: 800px; margin: 26px auto; padding: 0 16px; }
+  .card {
+    background: #fff; border-radius: var(--radius); padding: 28px 28px 26px;
+    border: 1px solid #e3eae6; box-shadow: 0 6px 24px rgba(7, 61, 39, .07); margin-bottom: 18px;
+  }
+  h2 { margin: 0 0 4px; font-family: var(--font-display); font-size: 1.5rem; line-height: 1.2; color: var(--brand-dark); }
+  h2:focus { outline: none; }
+  h3 { margin: 26px 0 6px; font-size: 1.02rem; color: var(--brand-dark); }
+  .lead { margin: 0 0 18px; color: var(--muted); }
+
+  /* ---- intro ---- */
+  .intro { padding: 0; overflow: hidden; }
+  .intro-head { padding: 32px 28px 24px; background: linear-gradient(180deg, var(--brand-light), #fff); }
+  .intro-head h2 { font-size: 2rem; }
+  .intro-head .lead { margin: 6px 0 0; font-size: 1.02rem; }
+  .intro-body { padding: 4px 28px 28px; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0 4px; }
+  .fact-tile { background: #fff; border: 1.5px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .fact-tile b { display: block; font-family: var(--font-display); font-size: 1.15rem; color: var(--brand-dark); line-height: 1.25; }
+  .fact-tile > span { font-size: .84rem; color: var(--muted); }
+  .note { background: var(--accent-soft); border-left: 5px solid var(--accent); border-radius: 10px; padding: 16px 18px 14px; margin: 22px 0 22px; }
+  .note h3 { margin: 0 0 8px; }
+  .note ul { margin: 0; padding-left: 20px; }
+  .note li { margin: 7px 0; }
+  .contact { font-size: .9rem; color: var(--muted); margin: 20px 0 0; }
+  #introStatus { margin-top: 12px; font-size: .92rem; min-height: 1.4em; }
+
+  /* ---- stepper ---- */
+  .stepper { list-style: none; margin: 0 0 8px; padding: 0; display: flex; justify-content: space-between; position: relative; counter-reset: s; }
+  .stepper::before { content: ""; position: absolute; top: 17px; left: 10%; right: 10%; height: 3px; background: var(--line); border-radius: 3px; }
+  .stepper li { position: relative; flex: 1; text-align: center; font-size: .78rem; color: var(--muted); font-weight: 600; }
+  .stepper .dot {
+    width: 36px; height: 36px; margin: 0 auto 6px; border-radius: 50%; display: grid; place-items: center;
+    background: #fff; border: 2.5px solid var(--line); color: var(--muted); font-weight: 700; position: relative; z-index: 1;
+    transition: background .2s, border-color .2s, color .2s;
+  }
+  .stepper li.done .dot { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .stepper li.current .dot { border-color: var(--brand); color: var(--brand-dark); box-shadow: 0 0 0 4px rgba(11, 93, 59, .16); }
+  .stepper li.current, .stepper li.done { color: var(--brand-dark); }
+  .step-caption { display: flex; justify-content: space-between; font-size: .9rem; margin: 10px 2px 14px; }
+  .step-caption strong { color: var(--brand-dark); }
+  @media (max-width: 600px) { .stepper li span { display: none; } }
+
+  /* ---- fields ---- */
+  label.field, .field-label { display: block; font-size: .92rem; font-weight: 600; margin: 18px 0 6px; }
+  .req::after { content: " *"; color: var(--danger); }
+  .hint { font-weight: 400; color: var(--muted); font-size: .85rem; }
+  input[type=text], input[type=email], input[type=tel], input[type=date], textarea {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px;
+    font: inherit; font-size: 1rem; background: #fbfcfb; color: var(--text); transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  input[type=text]:hover, input[type=email]:hover, input[type=tel]:hover, input[type=date]:hover, textarea:hover { border-color: #9fb3a8; }
+  input[type=text]:focus, input[type=email]:focus, input[type=tel]:focus, input[type=date]:focus, textarea:focus {
+    outline: none; border-color: var(--brand); background: #fff; box-shadow: 0 0 0 4px rgba(11, 93, 59, .14);
+  }
+  textarea { min-height: 88px; resize: vertical; }
+  button:focus-visible, .choice:focus-within { outline: 3px solid rgba(217, 164, 65, .8); outline-offset: 2px; }
+  [aria-invalid=true] { border-color: var(--danger) !important; background: #fff8f7 !important; }
+  .field-error { color: var(--danger); font-size: .86rem; margin-top: 6px; font-weight: 500; }
+  .field-error:empty { display: none; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+  @media (max-width: 640px) {
+    .row-2, .facts { grid-template-columns: 1fr; }
+    .card { padding: 22px 16px; }
+    .intro-head { padding: 26px 16px 20px; }
+    .intro-body { padding: 4px 16px 24px; }
+  }
+  .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  /* ---- choice tiles ---- */
+  .choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+  .choice-stack { display: grid; gap: 10px; }
+  .choice {
+    display: flex; gap: 12px; align-items: flex-start; padding: 13px 15px; cursor: pointer;
+    border: 1.5px solid var(--line); border-radius: 12px; background: #fff; transition: border-color .12s, background .12s;
+  }
+  .choice:hover { border-color: var(--brand-mid); background: #fafdfb; }
+  .choice input {
+    appearance: none; -webkit-appearance: none; margin: 1px 0 0; width: 22px; height: 22px; flex: none;
+    border: 2px solid #aebcb4; background: #fff; border-radius: 6px; display: grid; place-items: center; cursor: inherit;
+  }
+  .choice input[type=radio] { border-radius: 50%; }
+  .choice input:checked { background: var(--brand); border-color: var(--brand); }
+  .choice input[type=checkbox]:checked::after {
+    content: ""; width: 6px; height: 11px; border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: translateY(-1px) rotate(45deg);
+  }
+  .choice input[type=radio]:checked::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+  .choice.selected { border-color: var(--brand); background: var(--brand-light); }
+  .choice.disabled { opacity: .5; cursor: not-allowed; background: #f4f6f5; }
+  .choice.disabled:hover { border-color: var(--line); background: #f4f6f5; }
+  .choice-title { display: block; font-weight: 600; }
+  .choice-detail { display: block; font-size: .88rem; color: var(--muted); margin-top: 2px; }
+  .choice-tag { display: none; font-size: .8rem; color: var(--accent-dark); font-weight: 600; margin-top: 2px; }
+  .choice.day-blocked .choice-tag { display: block; }
+  .group-title { font-weight: 700; margin: 20px 0 10px; color: var(--brand-dark); }
+  .counter { font-size: .85rem; color: var(--muted); margin-top: 10px; }
+  .rule-note { display: flex; gap: 8px; background: var(--accent-soft); border-radius: 10px; padding: 10px 14px; font-size: .9rem; margin: 6px 0 0; }
+  .fact {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: baseline;
+    background: var(--brand-light); border-radius: 10px; padding: 12px 14px; margin: 24px 0 0;
+  }
+  .fact strong { color: var(--brand-dark); }
+
+
+  /* ---- voice guide ---- */
+  .voice-toggle {
+    margin-left: auto; min-height: 40px; padding: 6px 14px; display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.55); border-radius: 999px; font-size: .88rem;
+  }
+  .voice-toggle:hover:not(:disabled) { background: rgba(255,255,255,.14); border-color: #fff; }
+  .voice-toggle[aria-pressed=false] { opacity: .8; }
+  .intro-head, .step { position: relative; }
+  .listen {
+    position: absolute; top: 18px; right: 18px; min-height: 40px; padding: 6px 14px; display: inline-flex; align-items: center; gap: 7px;
+    border-radius: 999px; font-size: .88rem; background: var(--accent-soft); color: var(--brand-dark); border-color: var(--accent);
+  }
+  .listen:hover:not(:disabled) { background: #f8e6bd; color: var(--brand-dark); border-color: var(--accent-dark); }
+  .listen.on { background: var(--brand); color: #fff; border-color: var(--brand); }
+  .listen.on:hover:not(:disabled) { background: var(--brand-dark); color: #fff; }
+  .step h2, .intro-head h2, .success h2 { padding-right: 130px; }
+  .success h2 { padding-right: 0; }
+  .success .listen { position: static; margin: 0 auto 14px; display: inline-flex; }
+  @media (max-width: 640px) {
+    .listen { top: 14px; right: 12px; }
+    .step h2, .intro-head h2 { padding-right: 104px; font-size: 1.3rem; }
+    .voice-toggle span { font-size: .8rem; }
+  }
+
+  /* ---- files ---- */
+  .file-list { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 8px; }
+  .file-list li {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 12px; font-size: .92rem; background: #fbfcfb;
+  }
+  .file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-size { color: var(--muted); font-size: .82rem; margin-left: 8px; white-space: nowrap; }
+
+  /* ---- consent / signature ---- */
+  .consent {
+    background: #fafcfb; border: 1.5px dashed #b6c4bc; border-radius: 12px;
+    padding: 16px 18px; margin: 20px 0 4px; line-height: 1.8;
+  }
+  .consent .fill { font-weight: 700; border-bottom: 1.5px solid var(--text); padding: 0 4px; }
+  .sig-preview {
+    font-family: 'Dancing Script', 'Brush Script MT', cursive; font-size: 2rem; line-height: 1.3; color: #14213d;
+    min-height: 62px; padding: 8px 14px 0; margin-top: 8px; border-bottom: 2px solid var(--text); overflow-wrap: anywhere;
+  }
+  .sig-preview:empty::before { content: "Your signature will appear here"; font-family: var(--font); font-size: .9rem; color: #9aa79f; }
+  .sig-meta { margin-top: 6px; font-size: .88rem; color: var(--muted); }
+
+  /* ---- buttons ---- */
+  button, .btn {
+    font: inherit; font-weight: 600; min-height: 48px; padding: 10px 24px; border-radius: 10px;
+    border: 1.5px solid var(--brand); background: var(--brand); color: #fff; cursor: pointer; transition: background .15s, transform .05s;
+  }
+  button:hover:not(:disabled) { background: var(--brand-dark); border-color: var(--brand-dark); }
+  button:active:not(:disabled) { transform: translateY(1px); }
+  button:disabled { opacity: .55; cursor: not-allowed; }
+  button.secondary { background: #fff; color: var(--brand); }
+  button.secondary:hover:not(:disabled) { background: var(--brand-light); color: var(--brand-dark); }
+  button.link { min-height: 0; padding: 4px 8px; background: none; border: none; color: var(--brand); text-decoration: underline; }
+  button.link:hover:not(:disabled) { background: none; color: var(--brand-dark); }
+  button.big { font-size: 1.08rem; padding: 14px 34px; }
+  .nav-row { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; }
+  .nav-row button { min-width: 130px; }
+  .form-error { background: #fdecea; color: #8c1d13; border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; font-size: .95rem; }
+
+  /* ---- busy overlay ---- */
+  .busy {
+    position: fixed; inset: 0; background: rgba(255, 255, 255, .9); z-index: 50;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 20px;
+  }
+  .spinner { width: 44px; height: 44px; border-radius: 50%; border: 5px solid var(--brand-light); border-top-color: var(--brand); animation: spin .9s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .spinner { animation-duration: 3s; }
+    .stepper .dot, button, input, textarea, .choice { transition: none; }
+  }
+
+  /* ---- success ---- */
+  .success { text-align: center; padding-top: 34px; }
+  .success .tick { width: 64px; height: 64px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; margin: 0 auto 14px; font-size: 2rem; }
+  .success h2 { font-size: 1.8rem; }
+  .ref {
+    display: inline-block; font-size: 1.8rem; font-weight: 700; letter-spacing: .05em; color: var(--brand-dark);
+    background: var(--brand-light); border: 2px dashed var(--brand-mid); border-radius: 12px; padding: 10px 22px; margin: 10px 0 8px;
+  }
+  .success p { max-width: 560px; margin-left: auto; margin-right: auto; }
+
+  .sitefooter { text-align: center; color: var(--muted); font-size: .82rem; padding: 26px 12px 44px; }
+
+  @media print {
+    .topbar, .weave, .sitefooter, button, .listen, .no-print { display: none !important; }
+    body { background: #fff; }
+    .card { box-shadow: none; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <img src="logo.png" alt="" onerror="this.style.display='none'">
+      <div><h1>JangAfrika</h1><small>Study Centre · Gunjur, The Gambia</small></div>
+      <button type="button" id="voiceToggle" class="voice-toggle hidden" aria-pressed="true" title="Turn the spoken instructions on or off">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+        <span>Voice guide: <b id="voiceState">On</b></span>
+      </button>
+    </div>
+  </div>
+  <div class="weave" aria-hidden="true"></div>
+</header>
+
+<main class="container">
+
+  <!-- ============ INTRO NOTE + START ============ -->
+  <section id="screenIntro" class="card intro" aria-labelledby="introTitle">
+    <div class="intro-head">
+      <h2 id="introTitle">Student Application Form</h2>
+      <p class="lead">Study Class enrolment at JangAfrika Study Centre, Gunjur. It takes about 5 minutes.</p>
+    </div>
+
+    <div class="intro-body">
+      <div class="facts">
+        <div class="fact-tile"><b data-cfg="startDate">1st October 2026</b><span>Classes start</span></div>
+        <div class="fact-tile"><b>Up to <span data-cfg="maxClasses">3</span> classes</b><span>One class per day</span></div>
+        <div class="fact-tile"><b>Up to <span data-cfg="maxSubjects">3</span> subjects</b><span>Chosen by you</span></div>
+      </div>
+
+      <div class="note">
+        <h3>Please read before you start</h3>
+        <ul>
+          <li>Write correct data for your child's bio.</li>
+          <li>Have ready: your child's report card (a photo or a PDF) and a phone number for the parent/guardian. An email address is optional.</li>
+          <li>You will pick a payment plan, agree to the terms of enrolment and sign by typing your first and last name.</li>
+          <li>The form must be completed before or within one week of the start date. Failure to return the form may result in the child's unenrolment.</li>
+          <li>Students must come with pen/pencil, exercise books and textbooks (if available).</li>
+        </ul>
+      </div>
+
+      <button type="button" id="startBtn" class="big" disabled>Start application</button>
+      <div id="introStatus" role="status" aria-live="polite"></div>
+
+      <p class="contact">
+        For more information, visit or contact our centre:
+        +(220) 83 594 4287 / 87 263 0798 ·
+        <a href="mailto:info.jangafrica@gmail.com">info.jangafrica@gmail.com</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ THE FORM ============ -->
+  <form id="appForm" class="hidden" novalidate autocomplete="on">
+
+    <ol class="stepper" id="stepper" aria-hidden="true">
+      <li data-s="1"><div class="dot">1</div><span>Student</span></li>
+      <li data-s="2"><div class="dot">2</div><span>Classes</span></li>
+      <li data-s="3"><div class="dot">3</div><span>Payment</span></li>
+      <li data-s="4"><div class="dot">4</div><span>Documents</span></li>
+      <li data-s="5"><div class="dot">5</div><span>Consent</span></li>
+    </ol>
+    <div class="step-caption" aria-live="polite">
+      <strong id="stepLabel">Step 1 of 5</strong><span id="stepName" class="muted"></span>
+    </div>
+
+    <!-- Step 1 -->
+    <section class="card step" data-step="1" aria-labelledby="h1">
+      <h2 id="h1" tabindex="-1">Student information</h2>
+      <p class="lead">Write correct data for your child's bio.</p>
+
+      <label class="field req" for="fullName" style="margin-top:6px;">Full name of student</label>
+      <input type="text" id="fullName" name="fullName" autocomplete="off" maxlength="100" aria-describedby="err-fullName">
+      <div class="field-error" id="err-fullName"></div>
+
+      <div class="row-2">
+        <div>
+          <label class="field req" for="dob">Date of birth</label>
+          <input type="date" id="dob" name="dob" aria-describedby="err-dob">
+          <div class="field-error" id="err-dob"></div>
+        </div>
+        <div>
+          <label class="field req" for="grade">Grade</label>
+          <input type="text" id="grade" name="grade" maxlength="30" autocomplete="off" aria-describedby="err-grade">
+          <div class="field-error" id="err-grade"></div>
+        </div>
+      </div>
+
+      <label class="field req" for="currentSchool">Current school</label>
+      <input type="text" id="currentSchool" name="currentSchool" maxlength="120" autocomplete="off" aria-describedby="err-currentSchool">
+      <div class="field-error" id="err-currentSchool"></div>
+
+      <div class="row-2">
+        <div>
+          <label class="field req" for="emergencyName">Emergency contact name</label>
+          <input type="text" id="emergencyName" name="emergencyName" maxlength="100" autocomplete="off" aria-describedby="err-emergencyName">
+          <div class="field-error" id="err-emergencyName"></div>
+        </div>
+        <div>
+          <label class="field req" for="emergencyPhone">Emergency contact telephone</label>
+          <input type="tel" id="emergencyPhone" name="emergencyPhone" maxlength="25" autocomplete="off" aria-describedby="err-emergencyPhone">
+          <div class="field-error" id="err-emergencyPhone"></div>
+        </div>
+      </div>
+
+      <label class="field req" for="address">Address</label>
+      <textarea id="address" name="address" maxlength="250" autocomplete="street-address" aria-describedby="err-address"></textarea>
+      <div class="field-error" id="err-address"></div>
+    </section>
+
+    <!-- Step 2 -->
+    <section class="card step hidden" data-step="2" aria-labelledby="h2">
+      <h2 id="h2" tabindex="-1">Class schedule and subjects</h2>
+
+      <h3 style="margin-top:14px;">Class schedule</h3>
+      <p class="lead" style="margin-bottom:0;">Select up to <span data-cfg="maxClasses">3</span> classes.</p>
+      <div class="rule-note"><span>Only <strong>one class per day</strong> is allowed. Once you pick a day, the other times on that day are switched off.</span></div>
+      <div id="classGroups"></div>
+      <div class="counter" id="classCounter" aria-live="polite"></div>
+      <div class="field-error" id="err-classes"></div>
+
+      <div class="fact"><span>Start date:</span> <strong data-cfg="startDate">1st October 2026</strong></div>
+
+      <h3>Subjects enrolled</h3>
+      <p class="lead" style="margin-bottom:10px;">Select up to <span data-cfg="maxSubjects">3</span> subjects for academics.</p>
+      <div class="choice-grid" id="subjectList"></div>
+      <div class="counter" id="subjectCounter" aria-live="polite"></div>
+      <div class="field-error" id="err-subjects"></div>
+
+      <p class="muted" style="margin:20px 0 0;"><strong>Note:</strong> students must come with pen/pencil, exercise books and textbooks (if available).</p>
+    </section>
+
+    <!-- Step 3 -->
+    <section class="card step hidden" data-step="3" aria-labelledby="h3">
+      <h2 id="h3" tabindex="-1">Payment</h2>
+
+      <div class="field-label req" style="margin-top:14px;">Payment option <span class="hint">(select a payment plan)</span></div>
+      <div class="choice-stack" id="planList"></div>
+      <div class="field-error" id="err-plan"></div>
+
+      <label class="field req" for="paymentStart">Preferred payment start date</label>
+      <input type="date" id="paymentStart" name="paymentStart" aria-describedby="err-paymentStart" style="max-width:260px;">
+      <div class="field-error" id="err-paymentStart"></div>
+
+      <div class="field-label req" style="margin-top:24px;">Mode of payment <span class="hint">(select a payment method)</span></div>
+      <div class="choice-stack" id="methodList"></div>
+      <div class="field-error" id="err-method"></div>
+    </section>
+
+    <!-- Step 4 -->
+    <section class="card step hidden" data-step="4" aria-labelledby="h4">
+      <h2 id="h4" tabindex="-1">Required documents</h2>
+      <p class="lead">Your child's report card must be submitted with the form. Upload a clear photo or a PDF. If it has several pages, add up to <span id="maxFilesText">3</span> files.</p>
+
+      <input type="file" id="reportFile" accept="image/*,application/pdf" multiple class="hidden">
+      <button type="button" class="secondary" id="pickFileBtn">Choose report card file</button>
+      <span id="fileStatus" class="muted" style="margin-left:10px;" role="status" aria-live="polite"></span>
+      <ul class="file-list" id="fileList"></ul>
+      <div class="field-error" id="err-files"></div>
+      <p class="hint" style="margin-top:14px;">Photos are shrunk automatically before upload. PDFs can be up to <span id="maxMbText">4</span> MB each.</p>
+    </section>
+
+    <!-- Step 5 -->
+    <section class="card step hidden" data-step="5" aria-labelledby="h5">
+      <h2 id="h5" tabindex="-1">Terms and parent/guardian consent</h2>
+
+      <h3 style="margin-top:14px;">Terms and conditions of enrolment</h3>
+      <p class="lead" style="margin-bottom:10px;">Please read and tick each box to show your agreement.</p>
+      <div class="choice-stack" id="termsList"></div>
+      <div class="field-error" id="err-terms"></div>
+
+      <h3>Parent/guardian consent</h3>
+
+      <div class="row-2">
+        <div>
+          <label class="field req" for="parentName" style="margin-top:6px;">Parent/guardian full name</label>
+          <input type="text" id="parentName" name="parentName" maxlength="100" autocomplete="name" aria-describedby="err-parentName">
+          <div class="field-error" id="err-parentName"></div>
+        </div>
+        <div>
+          <label class="field req" for="parentPhone" style="margin-top:6px;">Phone number</label>
+          <input type="tel" id="parentPhone" name="parentPhone" maxlength="25" autocomplete="tel" aria-describedby="err-parentPhone">
+          <div class="field-error" id="err-parentPhone"></div>
+        </div>
+      </div>
+      <label class="field" for="parentEmail">Email address <span class="hint">(optional)</span></label>
+      <input type="email" id="parentEmail" name="parentEmail" maxlength="120" autocomplete="email" aria-describedby="err-parentEmail">
+      <div class="field-error" id="err-parentEmail"></div>
+
+      <div class="consent">
+        I, <span class="fill" id="consentParent">………………………</span>, parent/guardian of
+        <span class="fill" id="consentChild">………………………</span>, hereby apply for his/her enrolment in
+        JangAfrika Study Class(es) and agree to the terms and conditions that apply.
+      </div>
+
+      <label class="field req" for="signature">Signature <span class="hint">(type your first and last name)</span></label>
+      <input type="text" id="signature" name="signature" maxlength="80" autocomplete="off" aria-describedby="err-signature">
+      <div class="sig-preview" id="sigPreview" aria-hidden="true"></div>
+      <div class="sig-meta">Date: <strong id="consentDate"></strong></div>
+      <div class="field-error" id="err-signature"></div>
+
+      <!-- spam trap: real visitors never see or fill this (neutral name so browsers do not autofill it) -->
+      <div class="trap" aria-hidden="true">
+        <label>Leave this field empty <input type="text" id="hpField" name="hp_check" tabindex="-1" autocomplete="off"></label>
+      </div>
+    </section>
+
+    <div id="formError" class="form-error hidden" role="alert"></div>
+
+    <div class="nav-row">
+      <button type="button" class="secondary" id="backBtn">Back</button>
+      <button type="submit" id="nextBtn">Next</button>
+      <button type="submit" id="submitBtn" class="hidden">Submit application</button>
+    </div>
+  </form>
+
+  <!-- ============ SUCCESS ============ -->
+  <section id="screenSuccess" class="card success hidden" aria-labelledby="successTitle">
+    <div class="tick" aria-hidden="true">✓</div>
+    <h2 id="successTitle" tabindex="-1">Application received</h2>
+    <p>Thank you for trusting us! We have received the application for <strong id="successName"></strong>.</p>
+    <p class="muted" style="margin-bottom:0;">Your reference number:</p>
+    <div class="ref" id="refNumber"></div>
+    <p>Please keep this number. The Study centre office will review the application and the report card.
+       For any question, contact us on +(220) 83 594 4287 / 87 263 0798 or
+       <a href="mailto:info.jangafrica@gmail.com">info.jangafrica@gmail.com</a>.</p>
+    <p class="no-print">
+      <button type="button" class="secondary" onclick="window.print()">Print this page</button>
+      <button type="button" id="anotherBtn" style="margin-left:8px;">Apply for another child</button>
+    </p>
+  </section>
+</main>
+
+<div id="busy" class="busy hidden" role="alert" aria-live="assertive">
+  <div class="spinner"></div>
+  <strong>Submitting your application…</strong>
+  <span class="muted">Uploading the report card can take a little while. Please keep this page open.</span>
+</div>
+
+<footer class="sitefooter">
+  JangAfrika · Est. 2025, Gunjur · info.jangafrica@gmail.com · (+220) 2630798/5944287<br>
+  © 2026 JangAfrika — Study Class Application Form | Gunjur<br>
+  This form is not for sale.
+</footer>
+
+<script src="application.js"></script>
+</body>
+</html>
