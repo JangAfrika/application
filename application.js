@@ -4,7 +4,7 @@
    ========================================================================= */
 
 // PASTE your deployed Apps Script Web App URL here (ends in /exec)
-const API_URL = 'https://script.google.com/macros/s/AKfycbzvIsBp3Eta7Bj2fJQlw3aQKHLd1rtm6aq3Kn4UiR05x6bJ1WKYgVMdralQ-bixt-E_/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxw0bPC0sqWF7A0mfSLDhuWMDrB5WeqHlvY4q6M-9IkPrjLMFrYgIG_7MUJpZv7-tni/exec';
 
 (function () {
   'use strict';
